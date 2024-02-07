@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button, Container, Form, Table, Modal } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import './App.css'; // Import the CSS file for styling
+import './App.css';
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
