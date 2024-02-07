@@ -1,0 +1,37 @@
+/* src/App.css
+body {
+  background-color: #5E1B89;
+  background: linear-gradient(to bottom right, #5E1B89, #F4512C); 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
+}
+
+.mt-3 {
+  text-align: center;
+} */
+main {
+  background: linear-gradient(to bottom left, #FF7F4D, #9D71BC); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  width: 100vw;
+}
+
+.center-container {
+  margin : auto;
+}
+
+.navbar-fixed {
+  /* position: fixed; */
+  color: azure;
+  width: 100%;
+  z-index: 1000; /* Set a z-index value to ensure it's above other content */
+}
+h4{
+  color: aliceblue;
+}
