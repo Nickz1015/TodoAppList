@@ -2,7 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Form, ListGroup, Modal } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
-import { Icon } from '@iconify/react';
+import { MdDeleteOutline } from "react-icons/md";
+import { TbEdit } from "react-icons/tb";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 
@@ -167,7 +168,7 @@ const TodoApp = () => {
       >
         {/* <h1>Todo App</h1> */}
         <Form className="d-flex">
-        <Form.Group className="mb-3 d-flex" style={{ width:'100%'}}>
+        <Form.Group className="mb-3 d-flex" style={{ width:'100%', marginTop: '8px'}}>
           <Form.Control
             type="text"
             placeholder="Add a new task"
@@ -177,7 +178,8 @@ const TodoApp = () => {
             style={{
               height: '50px',
               marginRight: '8px', // Adjust the margin as needed
-              backgroundColor: '#f2f2f2'
+              backgroundColor: '#f2f2f2',
+              
             }}
           />
           <Button variant="flat" onClick={addTask}>
@@ -193,7 +195,7 @@ const TodoApp = () => {
         <div className="d-flex justify-content-between align-items-center">
           <h3 className="mt-3">Tasks</h3>
           <Button variant="danger" className="mt-3" onClick={openDeleteAllConfirmation}>
-          <Icon icon="fluent-mdl2:delete" />
+          <MdDeleteOutline margin="auto" />
           Delete All
         </Button>
         </div>
@@ -235,14 +237,14 @@ const TodoApp = () => {
             className="mr-2"
             style={{ marginRight: '15px' }}
           >
-            <Icon icon="ci:note-edit" />
+            <TbEdit size="20px" />
           </Button>
           <Button
             variant="outline-danger"
             size="sm"
             onClick={() => openDeleteConfirmation(index)}
           >
-            <Icon icon="fluent-mdl2:delete" />
+            <MdDeleteOutline size="20px" />
           </Button>
         </div>
       </div>
@@ -276,7 +278,8 @@ const TodoApp = () => {
               <div className="d-flex justify-content-between align-items-center">
                 <span>{task.text}</span>
                 <Button variant="outline-danger" size="sm" onClick={() => deleteCompletedTask(index)}>
-                  Delete
+               
+                Delete
                 </Button>
               </div>
             </ListGroup.Item>
