@@ -14,6 +14,7 @@ body {
 } */
 main {
   background: linear-gradient(to bottom left, #FF7F4D, #9D71BC); 
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -34,4 +35,8 @@ main {
 }
 h4{
   color: aliceblue;
+}
+
+.grid{
+  background-color: #9D71BC;
 }

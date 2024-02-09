@@ -1,6 +1,6 @@
 // src/App.js
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Form, Table, Modal } from 'react-bootstrap';
+import { Button, Container, Form, ListGroup, Modal } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
@@ -26,7 +26,8 @@ const TodoApp = () => {
     localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
   }, [completedTasks]);
 
-  const addTask = () => {
+  const addTask = (e) => {
+    e.preventDefault(); // Prevent default form submission behavior
     if (newTask.trim() !== '') {
       const newTaskObj = { text: newTask, completed: false, date: new Date().toLocaleString() };
       setTasks([...tasks, newTaskObj]);
@@ -121,87 +122,113 @@ const TodoApp = () => {
           backgroundColor: "#F8FFFE",
           padding: '20px',
           borderRadius: '10px',
-          width: '1000px',
+          width: '100%',
         }}
       >
         <h1>Todo App</h1>
-        <Form>
-          <Form.Group className="mb-3">
+        <Form className="d-flex">
+          <Form.Group className="mb-3 flex-grow-1">
             <Form.Control
               type="text"
               placeholder="Add a new task"
               value={newTask}
               onChange={(e) => setNewTask(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && addTask(e)}
             />
           </Form.Group>
-          <Button variant="primary" onClick={addTask}>
-            Add Task
+          <Button variant="primary" onClick={addTask} className="ml-2">
+            Add
           </Button>
         </Form>
-        <h2 className="mt-3">Tasks</h2>
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th style={{ width: '10%'}}></th>
-              <th style={{ width: '40%'}} >Task Name</th>
-              <th style={{ width: '25%' }}>Date Created</th>
-              <th style={{ width: '25%' }}>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tasks.map((task, index) => (
-              <tr key={index} className={task.completed ? 'text-decoration-line-through' : ''}>
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    id={`checkbox-${index}`}
-                    checked={task.completed}
-                    onChange={() => toggleTaskCompletion(index)}
-                  />
-                </td>
-                <td>{task.text}</td>
-                <td>{task.date}</td>
-                <td>
-                  <Button variant="outline-warning" size="sm" onClick={() => openEditModal(index)}>
+
+        <div className="d-flex justify-content-between align-items-center">
+          <h2 className="mt-3">Tasks</h2>
+          <Button variant="danger" className="mt-3" onClick={deleteAll}>
+            Delete All
+          </Button>
+        </div>
+
+        <ListGroup>
+          {tasks.map((task, index) => (
+            <ListGroup.Item
+              key={index}
+              className={`d-flex justify-content-between align-items-center ${
+                task.completed ? 'text-decoration-line-through' : ''
+              }`}
+            >
+              <div className="d-flex align-items-center">
+                <Form.Check
+                  type="checkbox"
+                  id={`checkbox-${index}`}
+                  checked={task.completed}
+                  onChange={() => toggleTaskCompletion(index)}
+                  className="mr-2"
+                  style={{ marginRight: '15px' }}
+                />
+                <span>{task.text}</span>
+              </div>
+              <div className="d-flex flex-column align-items-end">
+                <span style={{ marginBottom: '5px' }}>{task.date}</span>
+                <div>
+                  <Button
+                    variant="outline-warning"
+                    size="sm"
+                    onClick={() => openEditModal(index)}
+                    className="mr-2"
+                    style={{ marginRight: '15px' }}
+                  >
                     Edit
                   </Button>
                   <Button variant="outline-danger" size="sm" onClick={() => deleteTask(index)}>
                     Delete
                   </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <h2 className="mt-3">Completed Tasks</h2>
-        <Table striped bordered hover responsive>
-          <thead>
-            <tr>
-              <th>Task Name</th>
-              <th>Date Created</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {completedTasks.map((task, index) => (
-              <tr key={index} className="text-decoration-line-through">
-                <td>{task.text}</td>
-                <td>{task.date}</td>
-                <td>
-                  <Button variant="outline-danger" size="sm" onClick={() => deleteCompletedTask(index)}>
-                    Delete
-                  </Button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
-        <Button variant="danger" className="mt-3" onClick={deleteAll}>
-          Delete All
-        </Button>
-        <Button variant="warning" className="mt-3 ms-2" onClick={deleteAllCompleted}>
-          Delete Completed
-        </Button>
+                </div>
+              </div>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+
+        <div className="d-flex justify-content-between align-items-center">
+          <h2 className="mt-3">Completed Tasks</h2>
+          <Button variant="warning" className="mt-3 ms-2" onClick={deleteAllCompleted}>
+            Delete Completed
+          </Button>
+        </div>
+
+        <ListGroup>
+          {completedTasks.map((task, index) => (
+            <ListGroup.Item key={index} className="text-decoration-line-through">
+              <div className="d-flex justify-content-between align-items-center">
+                <span>{task.text}</span>
+                <Button variant="outline-danger" size="sm" onClick={() => deleteCompletedTask(index)}>
+                  Delete
+                </Button>
+              </div>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+
+        {/* Edit Modal */}
+        <Modal show={showModal} onHide={closeEditModal} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Edit Task</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Control
+              type="text"
+              value={editText}
+              onChange={(e) => setEditText(e.target.value)}
+            />
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={closeEditModal}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={saveEdit}>
+              Save Changes
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
 
       {/* Edit Modal */}
