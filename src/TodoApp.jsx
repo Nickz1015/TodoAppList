@@ -125,28 +125,38 @@ const TodoApp = () => {
           width: '100%',
         }}
       >
-        <h1>Todo App</h1>
+        {/* <h1>Todo App</h1> */}
         <Form className="d-flex">
-          <Form.Group className="mb-3 flex-grow-1">
-            <Form.Control
-              type="text"
-              placeholder="Add a new task"
-              value={newTask}
-              onChange={(e) => setNewTask(e.target.value)}
-              onKeyDown={(e) => e.key === 'Enter' && addTask(e)}
-            />
-          </Form.Group>
-          <Button variant="primary" onClick={addTask} className="ml-2">
+        <Form.Group className="mb-3 d-flex" style={{ width:'100%'}}>
+          <Form.Control
+            type="text"
+            placeholder="Add a new task"
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && addTask(e)}
+            style={{
+              height: '50px',
+              marginRight: '8px', // Adjust the margin as needed
+              
+            }}
+          />
+          <Button variant="primary" onClick={addTask}>
             Add
           </Button>
+        </Form.Group>
+
+          {/* <Button variant="primary" onClick={addTask} className="ml-2">
+            Add
+          </Button> */}
         </Form>
 
         <div className="d-flex justify-content-between align-items-center">
-          <h2 className="mt-3">Tasks</h2>
+          <h3 className="mt-3">Tasks</h3>
           <Button variant="danger" className="mt-3" onClick={deleteAll}>
             Delete All
           </Button>
         </div>
+          <hr />
 
         <ListGroup>
           {tasks.map((task, index) => (
@@ -189,11 +199,12 @@ const TodoApp = () => {
         </ListGroup>
 
         <div className="d-flex justify-content-between align-items-center">
-          <h2 className="mt-3">Completed Tasks</h2>
+          <h3 className="mt-3">Completed Tasks</h3>
           <Button variant="warning" className="mt-3 ms-2" onClick={deleteAllCompleted}>
             Delete Completed
           </Button>
         </div>
+        <hr />
 
         <ListGroup>
           {completedTasks.map((task, index) => (
