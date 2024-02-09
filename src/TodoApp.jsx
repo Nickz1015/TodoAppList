@@ -12,6 +12,10 @@ const TodoApp = () => {
   const [editIndex, setEditIndex] = useState(null);
   const [editText, setEditText] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // Add this line
+  const [showDeleteAllConfirmation, setShowDeleteAllConfirmation] = useState(false); // Add this line
+
 
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -91,6 +95,36 @@ const TodoApp = () => {
     setCompletedTasks([]);
   };
 
+  const openDeleteConfirmation = (index) => {
+    setTaskToDelete(index);
+    setShowDeleteConfirmation(true);
+  };
+
+  const closeDeleteConfirmation = () => {
+    setTaskToDelete(null);
+    setShowDeleteConfirmation(false);
+  };
+
+  const confirmDeleteTask = () => {
+    if (taskToDelete !== null) {
+      deleteTask(taskToDelete);
+      closeDeleteConfirmation();
+    }
+  };
+
+  const openDeleteAllConfirmation = () => {
+    setShowDeleteAllConfirmation(true);
+  };
+
+  const closeDeleteAllConfirmation = () => {
+    setShowDeleteAllConfirmation(false);
+  };
+
+  const confirmDeleteAll = () => {
+    setTasks([]);
+    closeDeleteAllConfirmation();
+  };
+
   return (
     <main>
       <style type="text/css">
@@ -152,51 +186,55 @@ const TodoApp = () => {
 
         <div className="d-flex justify-content-between align-items-center">
           <h3 className="mt-3">Tasks</h3>
-          <Button variant="danger" className="mt-3" onClick={deleteAll}>
-            Delete All
-          </Button>
+          <Button variant="danger" className="mt-3" onClick={openDeleteAllConfirmation}>
+          Delete All
+        </Button>
         </div>
           <hr />
 
-        <ListGroup>
-          {tasks.map((task, index) => (
-            <ListGroup.Item
-              key={index}
-              className={`d-flex justify-content-between align-items-center ${
-                task.completed ? 'text-decoration-line-through' : ''
-              }`}
-            >
-              <div className="d-flex align-items-center">
-                <Form.Check
-                  type="checkbox"
-                  id={`checkbox-${index}`}
-                  checked={task.completed}
-                  onChange={() => toggleTaskCompletion(index)}
+          <ListGroup>
+        {tasks.map((task, index) => (
+          <ListGroup.Item
+            key={index}
+            className={`d-flex justify-content-between align-items-center ${
+              task.completed ? 'text-decoration-line-through' : ''
+            }`}
+          >
+            <div className="d-flex align-items-center">
+              <Form.Check
+                type="checkbox"
+                id={`checkbox-${index}`}
+                checked={task.completed}
+                onChange={() => toggleTaskCompletion(index)}
+                className="mr-2"
+                style={{ marginRight: '15px' }}
+              />
+              <span>{task.text}</span>
+            </div>
+            <div className="d-flex flex-column align-items-end">
+              <span style={{ marginBottom: '5px' }}>{task.date}</span>
+              <div>
+                <Button
+                  variant="outline-warning"
+                  size="sm"
+                  onClick={() => openEditModal(index)}
                   className="mr-2"
                   style={{ marginRight: '15px' }}
-                />
-                <span>{task.text}</span>
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={() => openDeleteConfirmation(index)}
+                >
+                  Delete
+                </Button>
               </div>
-              <div className="d-flex flex-column align-items-end">
-                <span style={{ marginBottom: '5px' }}>{task.date}</span>
-                <div>
-                  <Button
-                    variant="outline-warning"
-                    size="sm"
-                    onClick={() => openEditModal(index)}
-                    className="mr-2"
-                    style={{ marginRight: '15px' }}
-                  >
-                    Edit
-                  </Button>
-                  <Button variant="outline-danger" size="sm" onClick={() => deleteTask(index)}>
-                    Delete
-                  </Button>
-                </div>
-              </div>
-            </ListGroup.Item>
-          ))}
-        </ListGroup>
+            </div>
+          </ListGroup.Item>
+        ))}
+      </ListGroup>
 
         <div className="d-flex justify-content-between align-items-center">
           <h3 className="mt-3">Completed Tasks</h3>
@@ -260,6 +298,42 @@ const TodoApp = () => {
           </Button>
           <Button variant="primary" onClick={saveEdit}>
             Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+       {/* Delete Confirmation Modal */}
+       <Modal show={showDeleteConfirmation} onHide={closeDeleteConfirmation} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete this task?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeDeleteConfirmation}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDeleteTask}>
+            Confirm Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Delete All Confirmation Modal */}
+      <Modal show={showDeleteAllConfirmation} onHide={closeDeleteAllConfirmation} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>Confirm Deletion</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p>Are you sure you want to delete all tasks?</p>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeDeleteAllConfirmation}>
+            Cancel
+          </Button>
+          <Button variant="danger" onClick={confirmDeleteAll}>
+            Confirm Delete All
           </Button>
         </Modal.Footer>
       </Modal>
