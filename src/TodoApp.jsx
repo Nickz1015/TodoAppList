@@ -18,7 +18,6 @@ const TodoApp = () => {
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // Add this line
   const [showDeleteAllConfirmation, setShowDeleteAllConfirmation] = useState(false); // Add this line
-  const icon = (name) => <SvgColor src={`/assets/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
