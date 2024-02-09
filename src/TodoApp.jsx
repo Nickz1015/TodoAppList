@@ -262,13 +262,17 @@ const TodoApp = () => {
 
         <ListGroup>
           {completedTasks.map((task, index) => (
-            <ListGroup.Item key={index} className="text-decoration-line-through" 
-            style={{
-              backgroundColor: "#f2f2f2",
-              padding: '10px',
-              borderRadius: '10px',
-              width: '100%',
-            }}>
+            <ListGroup.Item
+              key={index}
+              className="text-decoration-line-through"
+              style={{
+                backgroundColor: "#f2f2f2",
+                padding: '10px',
+                borderRadius: '10px',
+                width: '100%',
+                marginBottom: '10px', // Add margin-bottom as needed
+              }}
+            >
               <div className="d-flex justify-content-between align-items-center">
                 <span>{task.text}</span>
                 <Button variant="outline-danger" size="sm" onClick={() => deleteCompletedTask(index)}>
@@ -278,6 +282,7 @@ const TodoApp = () => {
             </ListGroup.Item>
           ))}
         </ListGroup>
+
 
         {/* Edit Modal */}
         <Modal show={showModal} onHide={closeEditModal} centered>
