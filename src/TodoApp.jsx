@@ -2,8 +2,10 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Container, Form, ListGroup, Modal } from 'react-bootstrap';
 import Navbar from 'react-bootstrap/Navbar';
+import { Icon } from '@iconify/react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+
 
 const TodoApp = () => {
   const [tasks, setTasks] = useState([]);
@@ -15,7 +17,7 @@ const TodoApp = () => {
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false); // Add this line
   const [showDeleteAllConfirmation, setShowDeleteAllConfirmation] = useState(false); // Add this line
-
+  const icon = (name) => <SvgColor src={`/assets/${name}.svg`} sx={{ width: 1, height: 1 }} />;
 
   useEffect(() => {
     const storedTasks = JSON.parse(localStorage.getItem('tasks')) || [];
@@ -130,9 +132,13 @@ const TodoApp = () => {
       <style type="text/css">
         {`
           .btn-flat {
-            background-color: purple;
+            background-color: #F4512C;
             color: white;
           }
+          // .btn-danger {
+          //   background-color: #F4512C;
+          //   color: white;
+          // }
         `}
       </style>
 
@@ -171,10 +177,10 @@ const TodoApp = () => {
             style={{
               height: '50px',
               marginRight: '8px', // Adjust the margin as needed
-              
+              backgroundColor: '#f2f2f2'
             }}
           />
-          <Button variant="primary" onClick={addTask}>
+          <Button variant="flat" onClick={addTask}>
             Add
           </Button>
         </Form.Group>
@@ -187,54 +193,64 @@ const TodoApp = () => {
         <div className="d-flex justify-content-between align-items-center">
           <h3 className="mt-3">Tasks</h3>
           <Button variant="danger" className="mt-3" onClick={openDeleteAllConfirmation}>
+          <Icon icon="fluent-mdl2:delete" />
           Delete All
         </Button>
         </div>
           <hr />
 
-          <ListGroup>
-        {tasks.map((task, index) => (
-          <ListGroup.Item
-            key={index}
-            className={`d-flex justify-content-between align-items-center ${
-              task.completed ? 'text-decoration-line-through' : ''
-            }`}
+          <ListGroup style={{ marginTop: '20px' }}>
+  {tasks.map((task, index) => (
+    <ListGroup.Item
+      key={index}
+      className={`d-flex justify-content-between align-items-center ${
+        task.completed ? 'text-decoration-line-through' : ''
+      }`}
+      style={{ 
+        backgroundColor: '#f2f2f2', 
+        padding: '10px',
+        borderRadius: '10px',
+        width: '100%', 
+        marginBottom: '10px', // Add margin-bottom as needed
+      }}
+    >
+      <div className="d-flex align-items-center">
+        <Form.Check
+          type="checkbox"
+          id={`checkbox-${index}`}
+          checked={task.completed}
+          onChange={() => toggleTaskCompletion(index)}
+          className="mr-2"
+          style={{ marginRight: '15px'}}
+        />
+        <span>{task.text}</span>
+      </div>
+      <div className="d-flex flex-column align-items-end">
+        <span style={{ marginBottom: '5px' }}>{task.date}</span>
+        <div>
+          <Button
+            variant="outline-warning"
+            size="sm"
+            onClick={() => openEditModal(index)}
+            className="mr-2"
+            style={{ marginRight: '15px' }}
           >
-            <div className="d-flex align-items-center">
-              <Form.Check
-                type="checkbox"
-                id={`checkbox-${index}`}
-                checked={task.completed}
-                onChange={() => toggleTaskCompletion(index)}
-                className="mr-2"
-                style={{ marginRight: '15px' }}
-              />
-              <span>{task.text}</span>
-            </div>
-            <div className="d-flex flex-column align-items-end">
-              <span style={{ marginBottom: '5px' }}>{task.date}</span>
-              <div>
-                <Button
-                  variant="outline-warning"
-                  size="sm"
-                  onClick={() => openEditModal(index)}
-                  className="mr-2"
-                  style={{ marginRight: '15px' }}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="outline-danger"
-                  size="sm"
-                  onClick={() => openDeleteConfirmation(index)}
-                >
-                  Delete
-                </Button>
-              </div>
-            </div>
-          </ListGroup.Item>
-        ))}
-      </ListGroup>
+            <Icon icon="ci:note-edit" />
+          </Button>
+          <Button
+            variant="outline-danger"
+            size="sm"
+            onClick={() => openDeleteConfirmation(index)}
+          >
+            <Icon icon="fluent-mdl2:delete" />
+          </Button>
+        </div>
+      </div>
+    </ListGroup.Item>
+  ))}
+</ListGroup>
+
+      
 
         <div className="d-flex justify-content-between align-items-center">
           <h3 className="mt-3">Completed Tasks</h3>
@@ -246,7 +262,13 @@ const TodoApp = () => {
 
         <ListGroup>
           {completedTasks.map((task, index) => (
-            <ListGroup.Item key={index} className="text-decoration-line-through">
+            <ListGroup.Item key={index} className="text-decoration-line-through" 
+            style={{
+              backgroundColor: "#f2f2f2",
+              padding: '10px',
+              borderRadius: '10px',
+              width: '100%',
+            }}>
               <div className="d-flex justify-content-between align-items-center">
                 <span>{task.text}</span>
                 <Button variant="outline-danger" size="sm" onClick={() => deleteCompletedTask(index)}>
