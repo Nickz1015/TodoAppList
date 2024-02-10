@@ -167,87 +167,86 @@ const TodoApp = () => {
       >
         {/* <h1>Todo App</h1> */}
         <Form className="d-flex">
-        <Form.Group className="mb-3 d-flex" style={{ width:'100%', marginTop: '8px'}}>
-          <Form.Control
-            type="text"
-            placeholder="Add a new task"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && addTask(e)}
-            style={{
-              height: '50px',
-              marginRight: '8px', // Adjust the margin as needed
-              backgroundColor: '#f2f2f2',
-              
-            }}
-          />
-          <Button variant="flat" onClick={addTask}>
-            Add
-          </Button>
-        </Form.Group>
+          <Form.Group className="mb-3 d-flex" style={{ width: '100%', marginTop: '8px' }}>
+            <Form.Control
+              type="text"
+              placeholder="Add a new task"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && addTask(e)}
+              style={{
+                height: '50px',
+                marginRight: '8px', // Adjust the margin as needed
+                backgroundColor: '#f2f2f2',
+
+              }}
+            />
+            <Button variant="flat" onClick={addTask}>
+              Add
+            </Button>
+          </Form.Group>
         </Form>
 
         <div className="d-flex justify-content-between align-items-center">
           <h3 className="mt-3">Tasks</h3>
           <Button variant="danger" className="mt-3" onClick={openDeleteAllConfirmation}>
-          <MdDeleteOutline margin="auto" />
-          Delete All
-        </Button>
-        </div>
-          <hr />
-
-          <ListGroup style={{ marginTop: '20px' }}>
-  {tasks.map((task, index) => (
-    <ListGroup.Item
-      key={index}
-      className={`d-flex justify-content-between align-items-center ${
-        task.completed ? 'text-decoration-line-through' : ''
-      }`}
-      style={{ 
-        backgroundColor: '#f2f2f2', 
-        padding: '10px',
-        borderRadius: '10px',
-        width: '100%', 
-        marginBottom: '10px', // Add margin-bottom as needed
-      }}
-    >
-      <div className="d-flex align-items-center">
-        <Form.Check
-          type="checkbox"
-          id={`checkbox-${index}`}
-          checked={task.completed}
-          onChange={() => toggleTaskCompletion(index)}
-          className="mr-2"
-          style={{ marginRight: '15px'}}
-        />
-        <span>{task.text}</span>
-      </div>
-      <div className="d-flex flex-column align-items-end">
-        <span style={{ marginBottom: '5px' }}>{task.date}</span>
-        <div>
-          <Button
-            variant="outline-warning"
-            size="sm"
-            onClick={() => openEditModal(index)}
-            className="mr-2"
-            style={{ marginRight: '15px' }}
-          >
-            <TbEdit size="20px" />
-          </Button>
-          <Button
-            variant="outline-danger"
-            size="sm"
-            onClick={() => openDeleteConfirmation(index)}
-          >
-            <MdDeleteOutline size="20px" />
+            <MdDeleteOutline margin="auto" />
+            Delete All
           </Button>
         </div>
-      </div>
-    </ListGroup.Item>
-  ))}
-</ListGroup>
+        <hr />
 
-      
+        <ListGroup style={{ marginTop: '20px' }}>
+          {tasks.map((task, index) => (
+            <ListGroup.Item
+              key={index}
+              className={`d-flex justify-content-between align-items-center ${task.completed ? 'text-decoration-line-through' : ''
+                }`}
+              style={{
+                backgroundColor: '#f2f2f2',
+                padding: '10px',
+                borderRadius: '10px',
+                width: '100%',
+                marginBottom: '10px', // Add margin-bottom as needed
+              }}
+            >
+              <div className="d-flex align-items-center">
+                <Form.Check
+                  type="checkbox"
+                  id={`checkbox-${index}`}
+                  checked={task.completed}
+                  onChange={() => toggleTaskCompletion(index)}
+                  className="mr-2"
+                  style={{ marginRight: '15px' }}
+                />
+                <span>{task.text}</span>
+              </div>
+              <div className="d-flex flex-column align-items-end">
+                <span style={{ marginBottom: '5px' }}>{task.date}</span>
+                <div>
+                  <Button
+                    variant="outline-warning"
+                    size="sm"
+                    onClick={() => openEditModal(index)}
+                    className="mr-2"
+                    style={{ marginRight: '15px' }}
+                  >
+                    <TbEdit size="20px" />
+                  </Button>
+                  <Button
+                    variant="outline-danger"
+                    size="sm"
+                    onClick={() => openDeleteConfirmation(index)}
+                  >
+                    <MdDeleteOutline size="20px" />
+                  </Button>
+                </div>
+              </div>
+            </ListGroup.Item>
+          ))}
+        </ListGroup>
+
+
 
         <div className="d-flex justify-content-between align-items-center">
           <h3 className="mt-3">Completed Tasks</h3>
@@ -273,8 +272,8 @@ const TodoApp = () => {
               <div className="d-flex justify-content-between align-items-center">
                 <span>{task.text}</span>
                 <Button variant="outline-danger" size="sm" onClick={() => deleteCompletedTask(index)}>
-               
-                Delete
+
+                  Delete
                 </Button>
               </div>
             </ListGroup.Item>
@@ -327,8 +326,8 @@ const TodoApp = () => {
         </Modal.Footer>
       </Modal>
 
-       {/* Delete Confirmation Modal */}
-       <Modal show={showDeleteConfirmation} onHide={closeDeleteConfirmation} centered>
+      {/* Delete Confirmation Modal */}
+      <Modal show={showDeleteConfirmation} onHide={closeDeleteConfirmation} centered>
         <Modal.Header closeButton>
           <Modal.Title>Confirm Deletion</Modal.Title>
         </Modal.Header>
