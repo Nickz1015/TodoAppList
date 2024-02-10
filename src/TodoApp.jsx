@@ -185,10 +185,6 @@ const TodoApp = () => {
             Add
           </Button>
         </Form.Group>
-
-          {/* <Button variant="primary" onClick={addTask} className="ml-2">
-            Add
-          </Button> */}
         </Form>
 
         <div className="d-flex justify-content-between align-items-center">
